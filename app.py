@@ -10,7 +10,7 @@ from IPython.display import Image, display, HTML
 
 
 # Load the preprocessed DataFrame
-selected_df = pd.read_csv("preprocessed_data.csv")
+selected_df = pd.read_csv("preprocessed_data.zip")
 
 # Preprocessing function
 def preprocess_text(text):
