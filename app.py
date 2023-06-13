@@ -17,7 +17,7 @@ search_history = []
 @st.cache_data
 def load_data():
     return pd.read_csv("preprocessed_data.zip")
-selected_df = = load_data()
+selected_df = load_data()
 
 # Preprocessing function
 def preprocess_text(text):
