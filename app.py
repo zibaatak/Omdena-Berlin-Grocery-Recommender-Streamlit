@@ -86,7 +86,6 @@ def search_products(query, top_n=5, store=None, pricing=None, nutritional_tags=N
         html_output += f"<b>Stores:</b> {', '.join(stores)}<br>"
         
         html_output += f"<b>Pricing Category:</b> {row['PRICE_TAGS']}<br>"
-        html_output += f"<b>Nutritional Tags:</b> {row['nutritional_tags']}<br>"
         html_output += "</td>"
         html_output += "</tr>"
     
