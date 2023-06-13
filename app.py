@@ -73,7 +73,18 @@ def search_products(query, top_n=5, store=None, pricing=None, nutritional_tags=N
     # Generate HTML representation of the results
     html_output = "<table>"
     
+    # Track the seen product names
+    seen_product_names = set()
+
     for index, row in recommendations.iterrows():
+        product_name = row['PRODUCT_NAME_T']
+        
+        # Skip duplicate product names
+        if product_name in seen_product_names:
+            continue
+        
+        seen_product_names.add(product_name)
+        
         html_output += "<tr>"
         html_output += f"<td><a href='{row['PRODUCT_LINK']}' target='_blank'><img src='{row['IMAGE_URL']}' style='width:150px;height:150px;'></a></td>"
         html_output += "<td>"
