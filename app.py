@@ -1,6 +1,5 @@
 import pandas as pd
 import re
-import nltk_download
 import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
@@ -8,10 +7,17 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import streamlit as st
 from IPython.display import Image, display, HTML
+import csv
+
+
+search_history = []
 
 
 # Load the preprocessed DataFrame
-selected_df = pd.read_csv("preprocessed_data.zip")
+@st.cache_data
+def load_data():
+    return pd.read_csv("preprocessed_data.zip")
+selected_df = = load_data()
 
 # Preprocessing function
 def preprocess_text(text):
@@ -61,29 +67,22 @@ def search_products(query, top_n=5, store=None, pricing=None, nutritional_tags=N
         st.warning("No products matching the filters.")
         return
     
+    # Store the search query and recommendations in the search history
+    search_history.append((query, recommendations))
+    
     # Generate HTML representation of the results
     html_output = "<table>"
-    # Track the seen product names
-    seen_product_names = set()
     
     for index, row in recommendations.iterrows():
-        product_name = row['PRODUCT_NAME_T']
-        
-        # Skip duplicate product names
-        if product_name in seen_product_names:
-            continue
-        
-        seen_product_names.add(product_name)
-        
         html_output += "<tr>"
         html_output += f"<td><a href='{row['PRODUCT_LINK']}' target='_blank'><img src='{row['IMAGE_URL']}' style='width:150px;height:150px;'></a></td>"
         html_output += "<td>"
-        html_output += f"<b>Product Name:</b> {product_name}<br>"
+        html_output += f"<b>Product Name:</b> {row['PRODUCT_NAME_T']}<br>"
         html_output += f"<b>Price:</b> {row['PRODUCT_PRICE']}<br>"
         html_output += f"<b>Brand:</b> {row['PRODUCT_BRAND']}<br>"
         
         # Retrieve the stores that carry the product
-        stores = selected_df[selected_df['PRODUCT_NAME_T'] == product_name]['STORE_NAME'].tolist()
+        stores = selected_df[selected_df['PRODUCT_NAME_T'] == row['PRODUCT_NAME_T']]['STORE_NAME'].tolist()
         html_output += f"<b>Stores:</b> {', '.join(stores)}<br>"
         
         html_output += f"<b>Pricing Category:</b> {row['PRICE_TAGS']}<br>"
@@ -132,3 +131,15 @@ nutritional_tags = st.selectbox("By nutritional tags (optional):",[None,'Source 
 
 if st.button("Search"):
     search_products(query=search_query, top_n=top_n, store=store, pricing=pricing, nutritional_tags=nutritional_tags)
+   
+# Specify the file path for saving the search history
+csv_file_path = "search_history.csv"
+
+# Save the search history to a CSV file
+with open(csv_file_path, "w", newline="") as file:
+    writer = csv.writer(file)
+    writer.writerow(["Search Query", "Product Name", "Price", "Brand"])  # Write the header
+    for query, recommendations in search_history:
+        for index, row in recommendations.iterrows():
+            writer.writerow([query, row['PRODUCT_NAME_T'], row['PRODUCT_PRICE'], row['PRODUCT_BRAND']])
+
