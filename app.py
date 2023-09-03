@@ -9,6 +9,9 @@ import streamlit as st
 from IPython.display import Image, display, HTML
 import csv
 
+# Download NLTK data (if not already downloaded)
+nltk.download('punkt')
+nltk.download('stopwords')
 
 search_history = []
 
