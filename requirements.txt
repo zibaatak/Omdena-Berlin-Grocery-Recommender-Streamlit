@@ -1,4 +1,11 @@
-nltk
-scikit-learn
-IPython
+# Core dependencies
+pandas==2.2.3
+numpy==2.1.1
+streamlit==1.38.0
+# Natural Language Processing
+nltk==3.9.1
+# Machine Learning
+scikit-learn==1.5.2
+# Logging
+logging==0.4.9.6
 
