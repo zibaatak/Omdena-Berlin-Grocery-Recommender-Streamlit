@@ -57,10 +57,13 @@ def download_nltk_data():
     Download required NLTK data.
     """
     try:
+        nltk.data.find('tokenizers/punkt_tab')
         nltk.data.find('tokenizers/punkt')
         nltk.data.find('corpora/stopwords')
+        
     except LookupError:
-        nltk.download('punkt')
+        nltk.download('punkt_tab')
+        nltk.download('punkt')        
         nltk.download('stopwords')
 
 # Download NLTK data
