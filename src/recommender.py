@@ -48,13 +48,23 @@ import os
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# Download NLTK data
-nltk.download('punkt', quiet=True)
-nltk.download('stopwords', quiet=True)
-
 # Constants
 CSV_FILE_PATH = "search_history.csv"
 PREPROCESSED_DATA_PATH = "preprocessed_data.zip"
+
+def download_nltk_data():
+    """
+    Download required NLTK data.
+    """
+    try:
+        nltk.data.find('tokenizers/punkt')
+        nltk.data.find('corpora/stopwords')
+    except LookupError:
+        nltk.download('punkt')
+        nltk.download('stopwords')
+
+# Download NLTK data
+download_nltk_data()
 
 @st.cache_data
 def load_data() -> pd.DataFrame:
