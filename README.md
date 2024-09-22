@@ -1,8 +1,8 @@
 # Omdena Berlin Project - Recommender for Groceries in Berlin
 
 In this Omdena Project, I built a content-based recommendation engine utilizing the power of Named Entity Recognition (NER). 
-You can find the link to the recommender below! Please enjoy and have fun! 
-https://zibaatak-omdena-berlin-recommender-streamlit-app-3lngnh.streamlit.app/
+You can find the link to the recommender [here](https://omdena-berlin-grocery-recommender-app.streamlit.app/)! Please enjoy and have fun! 
+
 
 
 ## Future Opportunities 
